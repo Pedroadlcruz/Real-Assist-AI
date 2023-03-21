@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/loggen_in_chat_screen.dart';
+import '../../features/subcription/presentation/subscription_screen.dart';
 
 class AppRouter {
   ///
@@ -16,7 +17,8 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return _buildPage(const LoggenInChatScreen());
-
+      case SubscriptionScreen.routeName:
+        return _buildPage(const SubscriptionScreen());
       default:
         return PageRouteBuilder(
           pageBuilder: (_, __, ___) => Scaffold(

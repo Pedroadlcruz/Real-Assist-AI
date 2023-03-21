@@ -6,4 +6,9 @@ class Strings {
     "Creating email drip campaign content for your clients",
     "Writing answers to your clients texts/emails"
   ];
+
+  static const subscriptionBenefits = [
+    "5 Free Responses",
+    "Cancel Anytime",
+  ];
 }

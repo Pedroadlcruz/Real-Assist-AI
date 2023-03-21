@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:real_assit_ai/core/constants/strings.dart';
 import 'package:real_assit_ai/core/extensions/responsive.dart';
 
 import '../../../core/constants/assets.dart';
-import '../../../core/constants/strings.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
-import '../../subcription/presentation/subscription_screen.dart';
 
-class LoggenInChatScreen extends StatelessWidget {
-  const LoggenInChatScreen({super.key});
-  static const String routeName = 'loggen_in_chat_screen';
+class SubscriptionScreen extends StatelessWidget {
+  const SubscriptionScreen({super.key});
+  static const String routeName = 'subscription_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -40,36 +40,56 @@ class LoggenInChatScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 31.dH, bottom: 16.dH),
-              child: Text('Example of types of question to ask RealAssist',
-                  style: TextStyles.boldHuge24),
+              padding: EdgeInsets.only(top: 31.dH, bottom: 24.dH),
+              child: Text(
+                'The Right Clauses Every Time: Generate Custom Legal Clauses with RealAssist.AI',
+                style: GoogleFonts.manrope(
+                  fontSize: 30.fS,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
-            ...Strings.cardTexts.map(
-              (text) => _LoggenInCard(text: text),
+            Padding(
+              padding: EdgeInsets.only(bottom: 37.dH),
+              child: Text(
+                'Specifically designed to support the needs of real estate agents by providing an automated solution for generating custom legal clauses, streamlining your workflows.',
+                style: GoogleFonts.manrope(
+                  fontSize: 18.fS,
+                  color: AppColors.color727782,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
-            const Expanded(child: SizedBox()),
             Align(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 8.dH),
+                padding: EdgeInsets.only(bottom: 27.dH),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(175.dW, 54.dH),
-                    backgroundColor: AppColors.color272679,
+                    backgroundColor: AppColors.secondaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.dW),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, SubscriptionScreen.routeName);
-                  },
-                  child: Text(
-                    "Subscribe",
-                    style: TextStyles.boldLarge18.copyWith(color: Colors.white),
+                  onPressed: () {},
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.dW),
+                    child: Text(
+                      "Try RealAssit for Free",
+                      style: GoogleFonts.manrope(
+                          color: Colors.white,
+                          fontSize: 16.fS,
+                          fontWeight: FontWeight.w400),
+                    ),
                   ),
                 ),
               ),
             ),
+            ...Strings.subscriptionBenefits.map(
+              (text) => _SubscriptionBenefitsLabel(text: text),
+            ),
+            const Expanded(child: SizedBox()),
             Padding(
               padding: EdgeInsets.only(top: 7.dH, bottom: 15.dH),
               child: Row(
@@ -119,37 +139,31 @@ class LoggenInChatScreen extends StatelessWidget {
   }
 }
 
-class _LoggenInCard extends StatelessWidget {
-  const _LoggenInCard({required this.text});
+class _SubscriptionBenefitsLabel extends StatelessWidget {
+  const _SubscriptionBenefitsLabel({required this.text});
   final String text;
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(minHeight: 65.dH),
-      padding: EdgeInsets.only(right: 10.dW),
-      margin: EdgeInsets.only(top: 8.dH),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(8.dW),
-        ),
-      ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 15.dH),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: 14.dH, bottom: 15.dH, left: 21.dW, right: 40.dW),
-              child: Text(text, style: TextStyles.boldSmall14),
+        children: <Widget>[
+          Image.asset(
+            AppImages.tickSquare,
+            height: 24.dW,
+            width: 24.dW,
+            fit: BoxFit.contain,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 13.dW),
+            child: Text(
+              text,
+              style: GoogleFonts.manrope(
+                  color: AppColors.color555B67,
+                  fontSize: 16.fS,
+                  fontWeight: FontWeight.w500),
             ),
           ),
-          Icon(
-            Icons.arrow_outward,
-            size: 24.dW,
-            color: AppColors.secondaryColor,
-          )
         ],
       ),
     );
