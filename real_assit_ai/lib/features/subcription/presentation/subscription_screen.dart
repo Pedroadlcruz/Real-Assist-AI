@@ -6,6 +6,7 @@ import 'package:real_assit_ai/core/extensions/responsive.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
+import '../../chat/presentation/chat_screen.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
@@ -72,7 +73,9 @@ class SubscriptionScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.dW),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, ChatScreen.routeName);
+                  },
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24.dW),
                     child: Text(

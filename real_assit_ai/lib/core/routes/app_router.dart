@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:real_assit_ai/features/chat/presentation/chat_screen.dart';
 
 import '../../features/auth/presentation/loggen_in_chat_screen.dart';
 import '../../features/subcription/presentation/subscription_screen.dart';
@@ -19,6 +20,8 @@ class AppRouter {
         return _buildPage(const LoggenInChatScreen());
       case SubscriptionScreen.routeName:
         return _buildPage(const SubscriptionScreen());
+      case ChatScreen.routeName:
+        return _buildPage(const ChatScreen());
       default:
         return PageRouteBuilder(
           pageBuilder: (_, __, ___) => Scaffold(
