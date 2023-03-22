@@ -5,11 +5,12 @@ import '../../../core/constants/assets.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
+import '../../../core/widgets/side_menu_header.dart';
 import '../../subcription/presentation/subscription_screen.dart';
 
 class LoggenInChatScreen extends StatelessWidget {
   const LoggenInChatScreen({super.key});
-  static const String routeName = 'loggen_in_chat_screen';
+  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,22 @@ class LoggenInChatScreen extends StatelessWidget {
         toolbarHeight: 64.dH,
         leadingWidth: 40.dW,
         backgroundColor: Colors.white,
-        leading: const Icon(
-          Icons.menu,
-          color: AppColors.color292D32,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: AppColors.color292D32,
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Scaffold(
+                  backgroundColor: Colors.black.withOpacity(0.3),
+                  body: const SideMenuHeader(),
+                );
+              },
+            );
+          },
         ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,

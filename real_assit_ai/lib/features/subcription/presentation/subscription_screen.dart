@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_assit_ai/core/constants/strings.dart';
 import 'package:real_assit_ai/core/extensions/responsive.dart';
+import 'package:real_assit_ai/features/auth/presentation/loggen_in_chat_screen.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
+import '../../../core/widgets/side_menu_header.dart';
 import '../../chat/presentation/chat_screen.dart';
 
 class SubscriptionScreen extends StatelessWidget {
@@ -21,9 +23,44 @@ class SubscriptionScreen extends StatelessWidget {
         toolbarHeight: 64.dH,
         leadingWidth: 40.dW,
         backgroundColor: Colors.white,
-        leading: const Icon(
-          Icons.menu,
-          color: AppColors.color292D32,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: AppColors.color292D32,
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Scaffold(
+                  backgroundColor: AppColors.primaryColor,
+                  body: Column(
+                    children: [
+                      const SideMenuHeader(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 487.dH, bottom: 45.dH),
+                        child: Divider(
+                            height: 0.5.dH, color: AppColors.colorF5F6FA),
+                      ),
+                      ...Strings.sideMenuOptions.map(
+                        (option) => _SideMenuOption(
+                          text: option,
+                          onTap: () {
+                            if (option == "Logout") {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  LoggenInChatScreen.routeName,
+                                  (route) => false);
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
         ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -136,6 +173,31 @@ class SubscriptionScreen extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SideMenuOption extends StatelessWidget {
+  const _SideMenuOption({required this.text, required this.onTap});
+  final String text;
+  final void Function()? onTap;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 34.dH, left: 63.dW),
+        child: InkWell(
+          onTap: onTap,
+          child: Text(
+            text,
+            style: GoogleFonts.manrope(
+                fontSize: 20.fS,
+                fontWeight: FontWeight.w400,
+                color: Colors.white),
+          ),
         ),
       ),
     );

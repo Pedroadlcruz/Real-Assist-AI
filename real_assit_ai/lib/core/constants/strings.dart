@@ -11,6 +11,12 @@ class Strings {
     "5 Free Responses",
     "Cancel Anytime",
   ];
+  static const sideMenuOptions = [
+    'Account',
+    'Contact Us',
+    'Logout',
+  ];
+
   static const chatInitialMsg =
       'Hey, this  Real Assist AI, How I can help you?';
 }
