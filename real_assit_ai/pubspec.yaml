@@ -34,8 +34,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_native_splash:
   flutter_launcher_icons: ^0.12.0
 flutter_icons:
+# flutter pub get
+# flutter pub run flutter_launcher_icons
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/app-icon.png"
@@ -75,7 +78,27 @@ flutter:
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  #         weight: 700  0F1C35
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  # This package generates native code to customize Flutter's default white native splash screen
+  # with background color and splash image.
+  # Customize the parameters below, and run the following command in the terminal:
+  # flutter pub run flutter_native_splash:create
+  # To restore Flutter's default white splash screen, run the following command in the terminal:
+  # flutter pub run flutter_native_splash:remove
+  color: "#0F1C35"
+  image: assets/images/app-splash.png
+  color_dark: "#0F1C35"
+  image_dark: assets/images/app-splash.png
+  fullscreen: true
+
+  android_12:
+    image: assets/images/app-splash.png
+    icon_background_color: "#0F1C35"
+    image_dark: assets/images/app-splash.png
+    icon_background_color_dark: "#0F1C35"
+
+  web: false
