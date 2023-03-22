@@ -25,7 +25,7 @@ class ChatBloc extends Bloc<ChatBlocEvent, ChatBlocState> {
   }
 
   bool validateResponseLimit() {
-    return state.responses >= 5;
+    return state.responses >= 3;
   }
 
   FutureOr<void> _onSendWelcomeMsg(
