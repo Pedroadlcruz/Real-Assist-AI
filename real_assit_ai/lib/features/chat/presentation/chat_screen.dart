@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_assit_ai/core/extensions/responsive.dart';
 
 import '../../../core/constants/assets.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
+import '../blocs/chat_bloc/chat_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -32,20 +34,28 @@ class ChatScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-              child: ListView(
-            children: [
-              SizedBox(height: 30.dH),
-              const _ChatBubble(
-                msg: 'Hey, this  Real Assist AI, How I can help you?',
-                isResponse: false,
-              ),
-              const _ChatBubble(
-                msg:
-                    'How do I share property descriptions with my clients in the most effective way',
-                isResponse: true,
-              ),
-            ],
-          )),
+            child: BlocBuilder<ChatBloc, ChatBlocState>(
+              builder: (BuildContext context, state) {
+                switch (state.status) {
+                  case ChatStatus.failure:
+                  case ChatStatus.initial:
+                    return const Center(child: CircularProgressIndicator());
+                  case ChatStatus.loading:
+                  case ChatStatus.success:
+                    return ListView.builder(
+                      itemCount: state.messages.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _ChatBubble(
+                          msg: state.messages[index].message,
+                          isResponse: state.messages[index].isResponse,
+                          hour: state.messages[index].time,
+                        );
+                      },
+                    );
+                }
+              },
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(top: 7.dH, bottom: 15.dH),
             child: Row(
@@ -65,7 +75,9 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    context.read<ChatBloc>().add(const OnAsking("Hello Word"));
+                  },
                   child: Container(
                     height: 45.dW,
                     width: 45.dW,
@@ -124,8 +136,10 @@ class ChatScreen extends StatelessWidget {
 }
 
 class _ChatBubble extends StatelessWidget {
-  const _ChatBubble({required this.msg, required this.isResponse});
+  const _ChatBubble(
+      {required this.msg, required this.isResponse, required this.hour});
   final String msg;
+  final String hour;
   final bool isResponse;
   @override
   Widget build(BuildContext context) {
@@ -146,7 +160,7 @@ class _ChatBubble extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 10.dH),
             child: Text(
-              '08:30 pm',
+              hour,
               style: GoogleFonts.manrope(
                 fontSize: 12.fS,
                 color: AppColors.color9BA1AE,

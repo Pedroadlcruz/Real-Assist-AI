@@ -11,4 +11,6 @@ class Strings {
     "5 Free Responses",
     "Cancel Anytime",
   ];
+  static const chatInitialMsg =
+      'Hey, this  Real Assist AI, How I can help you?';
 }

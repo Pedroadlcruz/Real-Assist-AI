@@ -20,6 +20,12 @@ dependencies:
   http: ^0.13.4
   #Enviropment
   flutter_dotenv: ^5.0.2 
+  # State Management
+  flutter_bloc: ^8.0.1
+  # Value equality
+  equatable: ^2.0.3
+  #Utils
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

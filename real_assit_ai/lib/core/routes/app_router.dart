@@ -4,9 +4,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_assit_ai/core/constants/strings.dart';
+import 'package:real_assit_ai/features/chat/data/repository/chat_repository.dart';
 import 'package:real_assit_ai/features/chat/presentation/chat_screen.dart';
 
 import '../../features/auth/presentation/loggen_in_chat_screen.dart';
+import '../../features/chat/blocs/chat_bloc/chat_bloc.dart';
 import '../../features/subcription/presentation/subscription_screen.dart';
 
 class AppRouter {
@@ -21,7 +25,11 @@ class AppRouter {
       case SubscriptionScreen.routeName:
         return _buildPage(const SubscriptionScreen());
       case ChatScreen.routeName:
-        return _buildPage(const ChatScreen());
+        return _buildPage(BlocProvider(
+          create: (_) => ChatBloc(chatRepository: ChatRepository())
+            ..add(const OnAsking(Strings.chatInitialMsg)),
+          child: const ChatScreen(),
+        ));
       default:
         return PageRouteBuilder(
           pageBuilder: (_, __, ___) => Scaffold(
