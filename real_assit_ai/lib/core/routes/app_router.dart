@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_assit_ai/core/services/network_info_service.dart';
 import 'package:real_assit_ai/features/chat/data/repository/chat_repository.dart';
 import 'package:real_assit_ai/features/chat/presentation/chat_screen.dart';
 
@@ -25,7 +26,8 @@ class AppRouter {
         return _buildPage(const SubscriptionScreen());
       case ChatScreen.routeName:
         return _buildPage(BlocProvider(
-          create: (_) => ChatBloc(chatRepository: ChatRepository())
+          create: (_) => ChatBloc(
+              chatRepository: ChatRepository(networkInfo: NetworkInfoService()))
             ..add(const SendWelcomeMsg()),
           child: const ChatScreen(),
         ));
