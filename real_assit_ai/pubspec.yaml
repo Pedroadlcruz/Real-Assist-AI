@@ -26,6 +26,8 @@ dependencies:
   equatable: ^2.0.3
   #Utils
   intl: ^0.17.0
+  #Network
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:
