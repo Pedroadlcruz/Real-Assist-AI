@@ -16,7 +16,7 @@ class ChatRepository {
   final NetworkInfoService networkInfo;
   Future<String?> createChatCompletion(String msg) async {
     // Check if device have wifi or mobile data
-    if (await networkInfo.isConnected) {
+    if (!await networkInfo.isConnected) {
       throw ApiException(msg: "Please, check your internet conection");
     }
     try {
