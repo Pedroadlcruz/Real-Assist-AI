@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "103700206174",
+    "project_id": "real-assist-ai",
+    "storage_bucket": "real-assist-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103700206174:android:7256a958f50e245b471acf",
+        "android_client_info": {
+          "package_name": "com.example.real_assit_ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103700206174-1l079l3as2ilb9e0i00f9061gsu6e6kl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkw7jUYaW6ZdS2ZVlKmvZwuBc7Y0Kc_DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103700206174-1l079l3as2ilb9e0i00f9061gsu6e6kl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
