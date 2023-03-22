@@ -56,56 +56,117 @@ class ChatScreen extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 7.dH, bottom: 15.dH),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 285.dW,
-                  constraints: BoxConstraints(minHeight: 53.dH),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.dW),
-                    ),
-                  ),
-                  child: TextField(
-                    decoration: _buildInputDecoration(),
+          const _ChatInput()
+        ],
+      ),
+    );
+  }
+}
+
+class _ChatInput extends StatefulWidget {
+  const _ChatInput();
+
+  @override
+  State<_ChatInput> createState() => _ChatInputState();
+}
+
+class _ChatInputState extends State<_ChatInput> {
+  late TextEditingController _chatInputController;
+  @override
+  void initState() {
+    _chatInputController = TextEditingController(text: "");
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _chatInputController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 7.dH, bottom: 15.dH),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          BlocBuilder<ChatBloc, ChatBlocState>(
+            builder: (context, state) {
+              return Container(
+                width: 285.dW,
+                constraints: BoxConstraints(minHeight: 53.dH),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.dW),
                   ),
                 ),
-                InkWell(
-                  onTap: () async {
-                    context.read<ChatBloc>().add(const OnAsking("Hello Word"));
-                  },
-                  child: Container(
-                    height: 45.dW,
-                    width: 45.dW,
-                    margin: EdgeInsets.only(left: 11.dW),
-                    padding: EdgeInsets.all(10.dW),
-                    decoration: const BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      AppImages.send,
-                      height: 22.5.dW,
-                      width: 22.5.dW,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                child: TextField(
+                  controller: _chatInputController,
+                  decoration: _buildInputDecoration()
+                      .copyWith(enabled: state.status == ChatStatus.success),
+                  onChanged: (query) =>
+                      context.read<ChatBloc>().add(UserQueryChanged(query)),
+                  onSubmitted: (_) => _summit(state, context),
                 ),
-              ],
-            ),
-          )
+              );
+            },
+          ),
+          BlocBuilder<ChatBloc, ChatBlocState>(
+            builder: (context, state) {
+              return InkWell(
+                onTap: () => _summit(state, context),
+                child: Container(
+                  height: 45.dW,
+                  width: 45.dW,
+                  margin: EdgeInsets.only(left: 11.dW),
+                  padding: EdgeInsets.all(10.dW),
+                  decoration: const BoxDecoration(
+                    color: AppColors.secondaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: state.status != ChatStatus.success
+                      ? const CircularProgressIndicator()
+                      : Image.asset(
+                          AppImages.send,
+                          height: 22.5.dW,
+                          width: 22.5.dW,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 
+  void _summit(ChatBlocState state, BuildContext context) {
+    if (state.status == ChatStatus.success) {
+      context.read<ChatBloc>().add(const ChatSubmitted());
+      _chatInputController.clear();
+      _dismissKeyboard();
+    }
+  }
+
+  void _dismissKeyboard() {
+    final FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   InputDecoration _buildInputDecoration() {
     return InputDecoration(
       enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8.dW)),
+        borderSide: const BorderSide(
+          color: Colors.white,
+        ),
+      ),
+      disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.dW)),
         borderSide: const BorderSide(
           color: Colors.white,

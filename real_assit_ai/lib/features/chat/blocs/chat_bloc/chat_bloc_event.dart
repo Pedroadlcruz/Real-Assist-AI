@@ -6,9 +6,19 @@ abstract class ChatBlocEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnAsking extends ChatBlocEvent {
-  final String ask;
-  const OnAsking(this.ask);
+class SendWelcomeMsg extends ChatBlocEvent {
+  const SendWelcomeMsg();
+}
+
+class UserQueryChanged extends ChatBlocEvent {
+  const UserQueryChanged(this.query);
+
+  final String query;
+
   @override
-  List<Object?> get props => [ask];
+  List<Object> get props => [query];
+}
+
+class ChatSubmitted extends ChatBlocEvent {
+  const ChatSubmitted();
 }
