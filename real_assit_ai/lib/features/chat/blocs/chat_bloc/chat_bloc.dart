@@ -19,6 +19,10 @@ class ChatBloc extends Bloc<ChatBlocEvent, ChatBlocState> {
     on<ChatSubmitted>(_onChatSubmitted);
   }
 
+  bool validateChatQuery() {
+    return state.query.trim().isNotEmpty && state.query.length >= 5;
+  }
+
   FutureOr<void> _onSendWelcomeMsg(
     SendWelcomeMsg event,
     Emitter<ChatBlocState> emit,
@@ -53,7 +57,7 @@ class ChatBloc extends Bloc<ChatBlocEvent, ChatBlocState> {
     ChatSubmitted event,
     Emitter<ChatBlocState> emit,
   ) async {
-    if (state.query.trim().isNotEmpty && state.query.length >= 5) {
+    if (validateChatQuery()) {
       try {
         final message = ChatMessage(
           message: state.query,

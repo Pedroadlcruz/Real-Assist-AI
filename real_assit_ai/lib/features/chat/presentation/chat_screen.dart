@@ -144,7 +144,8 @@ class _ChatInputState extends State<_ChatInput> {
   }
 
   void _summit(ChatBlocState state, BuildContext context) {
-    if (state.status == ChatStatus.success) {
+    final isValidQuery = context.read<ChatBloc>().validateChatQuery();
+    if (state.status == ChatStatus.success && isValidQuery) {
       context.read<ChatBloc>().add(const ChatSubmitted());
       _chatInputController.clear();
       _dismissKeyboard();
