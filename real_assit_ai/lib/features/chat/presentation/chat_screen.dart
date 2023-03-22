@@ -6,6 +6,7 @@ import 'package:real_assit_ai/core/extensions/responsive.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/text_styles.dart';
+import '../../../core/widgets/alerts.dart';
 import '../blocs/chat_bloc/chat_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -34,26 +35,35 @@ class ChatScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: BlocBuilder<ChatBloc, ChatBlocState>(
-              builder: (BuildContext context, state) {
-                switch (state.status) {
-                  case ChatStatus.failure:
-                  case ChatStatus.initial:
-                    return const Center(child: CircularProgressIndicator());
-                  case ChatStatus.loading:
-                  case ChatStatus.success:
-                    return ListView.builder(
-                      itemCount: state.messages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _ChatBubble(
-                          msg: state.messages[index].message,
-                          isResponse: state.messages[index].isResponse,
-                          hour: state.messages[index].time,
-                        );
-                      },
-                    );
+            child: BlocListener<ChatBloc, ChatBlocState>(
+              listener: (context, state) {
+                if (state.status == ChatStatus.failure) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(state.failureMsg)));
                 }
               },
+              child: BlocBuilder<ChatBloc, ChatBlocState>(
+                builder: (BuildContext context, state) {
+                  switch (state.status) {
+                    case ChatStatus.failure:
+                    case ChatStatus.initial:
+                      return const Center(child: CircularProgressIndicator());
+                    case ChatStatus.loading:
+                    case ChatStatus.success:
+                      return ListView.builder(
+                        itemCount: state.messages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _ChatBubble(
+                            msg: state.messages[index].message,
+                            isResponse: state.messages[index].isResponse,
+                            hour: state.messages[index].time,
+                          );
+                        },
+                      );
+                  }
+                },
+              ),
             ),
           ),
           const _ChatInput()
@@ -144,6 +154,17 @@ class _ChatInputState extends State<_ChatInput> {
   }
 
   void _summit(ChatBlocState state, BuildContext context) {
+    final hasFreeResponses = context.read<ChatBloc>().validateResponseLimit();
+    if (hasFreeResponses) {
+      Alerts.alertDialog(
+          context: context,
+          content: "You have consumed the maximum number of free responses",
+          onOk: () {
+            Navigator.of(context)
+              ..pop()
+              ..pop();
+          });
+    }
     final isValidQuery = context.read<ChatBloc>().validateChatQuery();
     if (state.status == ChatStatus.success && isValidQuery) {
       context.read<ChatBloc>().add(const ChatSubmitted());

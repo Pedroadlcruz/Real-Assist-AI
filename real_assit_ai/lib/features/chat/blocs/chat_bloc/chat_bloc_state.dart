@@ -9,26 +9,30 @@ class ChatBlocState extends Equatable {
     this.messages = const <ChatMessage>[],
     this.responses = 0,
     this.query = "",
+    this.failureMsg = "",
   });
   final ChatStatus status;
   final List<ChatMessage> messages;
   final int responses;
   final String query;
+  final String failureMsg;
 
   @override
-  List<Object?> get props => [status, messages, responses, query];
+  List<Object?> get props => [status, messages, responses, query, failureMsg];
 
   ChatBlocState copyWith({
     ChatStatus? status,
     List<ChatMessage>? messages,
     int? responses,
     String? query,
+    String? failureMsg,
   }) {
     return ChatBlocState(
       status: status ?? this.status,
       messages: messages ?? this.messages,
       responses: responses ?? this.responses,
       query: query ?? this.query,
+      failureMsg: failureMsg ?? this.failureMsg,
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:real_assit_ai/core/constants/strings.dart';
 import 'package:real_assit_ai/features/chat/data/repository/chat_repository.dart';
 
+import '../../../../core/errors/api_exeptions.dart';
 import '../../data/models/chat_message.dart';
 
 part 'chat_bloc_event.dart';
@@ -21,6 +22,10 @@ class ChatBloc extends Bloc<ChatBlocEvent, ChatBlocState> {
 
   bool validateChatQuery() {
     return state.query.trim().isNotEmpty && state.query.length >= 5;
+  }
+
+  bool validateResponseLimit() {
+    return state.responses >= 5;
   }
 
   FutureOr<void> _onSendWelcomeMsg(
@@ -84,8 +89,9 @@ class ChatBloc extends Bloc<ChatBlocEvent, ChatBlocState> {
             responses: state.responses + 1,
           ),
         );
-      } on Exception {
-        emit(state.copyWith(status: ChatStatus.failure));
+      } on ApiException catch (e) {
+        emit(state.copyWith(status: ChatStatus.failure, failureMsg: e.msg));
+        emit(state.copyWith(status: ChatStatus.success, failureMsg: ""));
       }
     }
   }
